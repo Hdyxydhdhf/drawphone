@@ -22,6 +22,10 @@ ctx.lineCap = "round";
 let isPainting = false;
 let isFilling = false;
 
+function getTouchPos(e){
+  return {
+    x: e.touches[0].clientX - e.target.offsetLeft, y: e.touches[0].clientY - e.target.offsetTop+document.documentElement.scrollTop};
+}
 
 function touchStart(e){
   e.preventDefault();
