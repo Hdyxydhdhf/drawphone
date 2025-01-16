@@ -1,3 +1,4 @@
+/OneDrive/Desktop/그림판.폰/app.js
 const saveBtn = document.getElementById("save");
 const textInput = document.getElementById("text");
 const fileInput = document.getElementById("file");
