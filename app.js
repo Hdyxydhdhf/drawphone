@@ -1,4 +1,3 @@
-/OneDrive/Desktop/그림판.폰/app.js
 const saveBtn = document.getElementById("save");
 const textInput = document.getElementById("text");
 const fileInput = document.getElementById("file");
@@ -22,62 +21,6 @@ ctx.lineWidth = lineWidth.value;
 ctx.lineCap = "round";
 let isPainting = false;
 let isFilling = false;
-
-function getTouchPos(e){
-  return {
-    x: e.touches[0].clientX - e.target.offsetLeft, y: e.touches[0].clientY - e.target.offsetTop+document.documentElement.scrollTop};
-}
-
-function touchStart(e){
-  e.preventDefault();
-  isPainting = true;
-  const {x, y} = getTouchPos(e);
-  startX = x;
-  startY = y;
-}
-
-function touchMove(e){
-  if(!isPainting) return;
-  const {x, y} = getTouchPos(e);
-  ctx.lineTo(x, y);
-  ctx.stroke();
-  startX = x;
-  startY = y;
-}
-
-function touchEnd(e){
-  if(!isPainting) return;
-  ctx.beginPath();
-  const {x, y} = getTouchPos(e);
-  startX = x;
-  startY = y;
-  ctx.arc(starX, startY, ctx.lineWidth/2, 0, Math.PI*2);
-  ctx.fillStyle = ctx.strokeStyle;
-  ctx.fill();
-  isPainting = false;
-}
-
-let isMobile = false;
-function checkMobile(){
-  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-    isMobile = true;
-  }else{
-    isMobile = false;
-  }
-}
-
-checkMobile();
-console.log(isMobile);
-if(isMobile){
-  canvas.addEventListener('touchstart', touchStart,false);
-  canvas.addEventListener('touchmove', touchMove,false);
-  canvas.addEventListener('touchend', touchEnd,false);
-} else {
-  canvas.addEventListener("mousemove", onMove);
-  canvas.addEventListener("mousedown", startPainting);
-  canvas.addEventListener("mouseup", cancelPainting);
-  canvas.addEventListener("mouseleave", cancelPainting);
-}
 
 function onMove(event) {
   if (isPainting) {
@@ -169,6 +112,10 @@ function onSaveClick() {
 }
 
 canvas.addEventListener("dblclick", onDoubleClick);
+canvas.addEventListener("mousemove", onMove);
+canvas.addEventListener("mousedown", startPainting);
+canvas.addEventListener("mouseup", cancelPainting);
+canvas.addEventListener("mouseleave", cancelPainting);
 canvas.addEventListener("click", onCanvasClick);
 lineWidth.addEventListener("change", onLineWidthChange);
 color.addEventListener("change", onColorChange);
@@ -178,3 +125,37 @@ destroyBtn.addEventListener("click", onDestroyClick);
 eraserBtn.addEventListener("click", onEraserClick);
 fileInput.addEventListener("change", onFileChange);
 saveBtn.addEventListener("click", onSaveClick);
+
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+
+function getTouchPos(e) {
+  return {
+    x: e.touches[0].clientX - e.target.offsetLeft,
+    y: e.touches[0].clientY - e.target.offsetTop + document.documentElement.scrollTop
+  };
+}
+
+function touchStart(e) {
+  e.preventDefault();
+  isPainting = true;
+  const { x, y } = getTouchPos(e);
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+}
+
+function touchMove(e) {
+  if (!isPainting) return;
+  const { x, y } = getTouchPos(e);
+  ctx.lineTo(x, y);
+  ctx.stroke();
+}
+
+function touchEnd(e) {
+  isPainting = false;
+  ctx.closePath();
+}
+
+canvas.addEventListener("touchstart", touchStart, false);
+canvas.addEventListener("touchmove", touchMove, false);
+canvas.addEventListener("touchend", touchEnd, false);
