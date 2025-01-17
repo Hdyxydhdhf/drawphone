@@ -1,4 +1,5 @@
 @import "reset.css";
+
 body {
     display: flex;
     gap:20px;
@@ -74,4 +75,40 @@ input#text {
     text-align: center;
     background-color:white;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 600px) {
+    body {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    canvas {
+        width: 60%;
+        height: auto;
+        max-width: 60%;
+    }
+
+    .btns {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btns input[type="range"] {
+        width: 30%;
+    }
+
+    .color-options {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .color-option {
+        width: 40px;
+        height: 40px;
+    }
 }
