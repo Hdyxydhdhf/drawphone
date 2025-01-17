@@ -111,23 +111,9 @@ function onSaveClick() {
   a.click();
 }
 
-canvas.addEventListener("dblclick", onDoubleClick);
-canvas.addEventListener("mousemove", onMove);
-canvas.addEventListener("mousedown", startPainting);
-canvas.addEventListener("mouseup", cancelPainting);
-canvas.addEventListener("mouseleave", cancelPainting);
-canvas.addEventListener("click", onCanvasClick);
-lineWidth.addEventListener("change", onLineWidthChange);
-color.addEventListener("change", onColorChange);
-colorOptions.forEach((color) => color.addEventListener("click", onColorClick));
-modeBtn.addEventListener("click", onModeClick);
-destroyBtn.addEventListener("click", onDestroyClick);
-eraserBtn.addEventListener("click", onEraserClick);
-fileInput.addEventListener("change", onFileChange);
-saveBtn.addEventListener("click", onSaveClick);
 
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
+
+/* 터치 이벤트 */
 
 function getTouchPos(e) {
   return {
@@ -149,13 +135,44 @@ function touchMove(e) {
   const { x, y } = getTouchPos(e);
   ctx.lineTo(x, y);
   ctx.stroke();
+  startX: x;
+  startY: y;
 }
 
 function touchEnd(e) {
-  isPainting = false;
+  if(!isPainting) return;
   ctx.closePath();
 }
 
-canvas.addEventListener("touchstart", touchStart, false);
-canvas.addEventListener("touchmove", touchMove, false);
-canvas.addEventListener("touchend", touchEnd, false);
+let isMobile = false;
+function checkMobile(){
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        isMobile = true;
+    }else{
+        isMobile = false;
+    }
+};
+checkMobile();
+console.log
+if(isMobile) {
+  canvas.addEventListener("touchstart", touchStart, false);
+  canvas.addEventListener("touchmove", touchMove, false);
+  canvas.addEventListener("touchend", touchEnd, false);
+}else{
+canvas.addEventListener("dblclick", onDoubleClick);
+canvas.addEventListener("mousemove", onMove);
+canvas.addEventListener("mousedown", startPainting);
+canvas.addEventListener("mouseup", cancelPainting);
+canvas.addEventListener("mouseleave", cancelPainting);
+canvas.addEventListener("click", onCanvasClick);
+lineWidth.addEventListener("change", onLineWidthChange);
+color.addEventListener("change", onColorChange);
+colorOptions.forEach((color) => color.addEventListener("click", onColorClick));
+modeBtn.addEventListener("click", onModeClick);
+destroyBtn.addEventListener("click", onDestroyClick);
+eraserBtn.addEventListener("click", onEraserClick);
+fileInput.addEventListener("change", onFileChange);
+saveBtn.addEventListener("click", onSaveClick);
+}
+ 
+
