@@ -117,8 +117,8 @@ function onSaveClick() {
 
 function getTouchPos(e) {
   return {
-    x: e.touches[0].clientX - e.target.offsetLeft,
-    y: e.touches[0].clientY - e.target.offsetTop + document.documentElement.scrollTop
+    x: e.touches[0].clientX - Reflect.left,
+    y: e.touches[0].clientY - Reflect.top
   };
 }
 
